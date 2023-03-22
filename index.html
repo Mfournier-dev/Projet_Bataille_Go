@@ -15,7 +15,20 @@
     <div class="container">
         <h1 class="mt-4">Jeu de bataille</h1>
         <hr>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Player 1</th>
+                    <th>Player 2</th>
+                </tr>
 
+                <tr>
+                    <td>Score : 0</td>
+                    <td>Score : 0</td>
+                </tr>
+            </tbody>
+        </table>
+    
         <p id="player_choice">&nbsp;</p>
         <p id="computer_choice">&nbsp;</p>
         <p class="text-danger" id="round_result">&nbsp;</p>
@@ -30,6 +43,7 @@
         <button class="btn btn-outline-success" onclick="choose(2)">Scissors</button>
     </div>
 </body>
+
 <script>
     function choose(x) {
         fetch("/play?c=" + x)
