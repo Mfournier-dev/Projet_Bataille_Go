@@ -41,10 +41,17 @@
         <button class="btn btn-outline-secondary" onclick="choose(0);">Rock</button>
         <button class="btn btn-outline-danger" onclick="choose(1)">Paper</button>
         <button class="btn btn-outline-success" onclick="choose(2)">Scissors</button>
+
+        <button class="btn btn-outline-dark" onclick="createDeck()">Create a deck</button>
+        <button class="btn btn-outline-primary" onclick="choose(2)">Deal a Card</button>
     </div>
 </body>
 
 <script>
+    function createDeck() {
+        
+    }
+
     function choose(x) {
         fetch("/play?c=" + x)
             .then(response => response.json())
