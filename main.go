@@ -1,7 +1,5 @@
 package main
 
-//yassine
-
 import (
 	"encoding/json"
 	"html/template"
@@ -10,6 +8,14 @@ import (
 	"net/http"
 	"strconv"
 )
+
+func main() {
+	http.HandleFunc("/play", playRound)
+	http.HandleFunc("/", homePage)
+
+	log.Println("Starting web server on port 8080")
+	http.ListenAndServe(":8080", nil)
+}
 
 func homePage(w http.ResponseWriter, r *http.Request) {
 	renderTemplate(w, "index.html")
@@ -28,14 +34,6 @@ func playRound(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(out)
-}
-
-func main() {
-	http.HandleFunc("/play", playRound)
-	http.HandleFunc("/", homePage)
-
-	log.Println("Starting web server on port 8080")
-	http.ListenAndServe(":8080", nil)
 }
 
 func renderTemplate(w http.ResponseWriter, page string) {
