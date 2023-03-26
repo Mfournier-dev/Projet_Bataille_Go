@@ -8,11 +8,25 @@ import (
 )
 
 type Card struct {
-	Type string
-	Suit string
+	Type  string
+	Suit  string
+	Value int
 }
 
-type Deck []Card
+type Deck struct {
+	cards []Card
+}
+
+var deckInstance *Deck
+
+func GetInstance() *Deck {
+	if deckInstance == nil {
+		deckInstance = &Deck{
+			cards: shuffle(createNewDeck()),
+		}
+	}
+	return deckInstance
+}
 
 func createNewDeck() (deck Deck) {
 
@@ -24,42 +38,44 @@ func createNewDeck() (deck Deck) {
 	for i := 0; i < len(types); i++ {
 		for n := 0; n < len(suits); n++ {
 			card := Card{
-				Type: types[i],
-				Suit: suits[n],
+				Type:  types[i],
+				Suit:  suits[n],
+				Value: i,
 			}
-			deck = append(deck, card)
+			deck.cards = append(deck.cards, card)
 		}
 	}
-	return
+	return deck
 }
 
-func Shuffle(d Deck) Deck {
+func shuffle(d Deck) []Card {
 	rand.Seed(time.Now().UnixNano())
-	for i := 1; i < len(d); i++ {
+	for i := 1; i < len(d.cards); i++ {
 
 		r := rand.Intn(i + 1)
 
 		if i != r {
-			d[r], d[i] = d[i], d[r]
+			d.cards[r], d.cards[i] = d.cards[i], d.cards[r]
 		}
 	}
-	return d
+	return d.cards
 }
 
 func Deal(d Deck, n int) {
 	for i := 0; i < n; i++ {
-		fmt.Println(d[i])
+		fmt.Println(d.cards[i])
 	}
 }
 
 func Debug(d Deck) {
 	if os.Getenv("DEBUG") != "" {
-		for i := 0; i < len(d); i++ {
-			fmt.Printf("Card #%d is a %s of %ss\n", i+1, d[i].Type, d[i].Suit)
+		for i := 0; i < len(d.cards); i++ {
+			fmt.Printf("Card #%d is a %s of %ss\n", i+1, d.cards[i].Type, d.cards[i].Suit)
 		}
 	}
 }
 
 func init() {
 	rand.Seed(time.Now().UnixNano())
+	deckInstance = nil
 }

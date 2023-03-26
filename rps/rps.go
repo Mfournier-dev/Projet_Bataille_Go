@@ -5,7 +5,6 @@ import (
 	"time"
 )
 
-
 const (
 	ROCK         = 0 // beats scissors. (scissors + 1) % 3 = 0
 	PAPER        = 1 // beats rock. (rock + 1) % 3 = 1
