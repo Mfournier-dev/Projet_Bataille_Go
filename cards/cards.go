@@ -14,7 +14,7 @@ type Card struct {
 }
 
 type Deck struct {
-	cards []Card
+	FullCards []Card
 }
 
 var deckInstance *Deck
@@ -22,7 +22,7 @@ var deckInstance *Deck
 func GetInstance() *Deck {
 	if deckInstance == nil {
 		deckInstance = &Deck{
-			cards: shuffle(createNewDeck()),
+			FullCards: shuffle(createNewDeck()),
 		}
 	}
 	return deckInstance
@@ -42,7 +42,7 @@ func createNewDeck() (deck Deck) {
 				Suit:  suits[n],
 				Value: i,
 			}
-			deck.cards = append(deck.cards, card)
+			deck.FullCards = append(deck.FullCards, card)
 		}
 	}
 	return deck
@@ -50,27 +50,27 @@ func createNewDeck() (deck Deck) {
 
 func shuffle(d Deck) []Card {
 	rand.Seed(time.Now().UnixNano())
-	for i := 1; i < len(d.cards); i++ {
+	for i := 1; i < len(d.FullCards); i++ {
 
 		r := rand.Intn(i + 1)
 
 		if i != r {
-			d.cards[r], d.cards[i] = d.cards[i], d.cards[r]
+			d.FullCards[r], d.FullCards[i] = d.FullCards[i], d.FullCards[r]
 		}
 	}
-	return d.cards
+	return d.FullCards
 }
 
 func Deal(d Deck, n int) {
 	for i := 0; i < n; i++ {
-		fmt.Println(d.cards[i])
+		fmt.Println(d.FullCards[i])
 	}
 }
 
 func Debug(d Deck) {
 	if os.Getenv("DEBUG") != "" {
-		for i := 0; i < len(d.cards); i++ {
-			fmt.Printf("Card #%d is a %s of %ss\n", i+1, d.cards[i].Type, d.cards[i].Suit)
+		for i := 0; i < len(d.FullCards); i++ {
+			fmt.Printf("Card #%d is a %s of %ss\n", i+1, d.FullCards[i].Type, d.FullCards[i].Suit)
 		}
 	}
 }

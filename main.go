@@ -4,13 +4,22 @@ import (
 	"encoding/json"
 	"html/template"
 	"log"
+	"myapp/cards"
+	"myapp/player"
 	"myapp/rps"
 	"net/http"
 	"strconv"
 )
 
 func main() {
+
+	deck := cards.GetInstance()
+
+	myPlayer := player.NewPlayer("Dara", deck.FullCards[:25])
+	cpuPlayer := player.NewPlayer("CPU", deck.FullCards[25:])
+
 	http.HandleFunc("/play", playRound)
+
 	http.HandleFunc("/", homePage)
 
 	log.Println("Starting web server on port 8080")

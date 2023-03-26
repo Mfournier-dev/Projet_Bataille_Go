@@ -8,7 +8,7 @@ type Player struct {
 	Cards []cards.Card
 }
 
-func NewPlayer(name string, cards []cards.Card) Player {
-	p := Player{Name: name, Cards: cards, Score: 0}
+func NewPlayer(name string, halfCards []cards.Card) Player {
+	p := Player{Name: name, Cards: halfCards, Score: 0}
 	return p
 }
