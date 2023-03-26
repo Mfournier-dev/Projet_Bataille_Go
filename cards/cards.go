@@ -8,8 +8,8 @@ import (
 )
 
 type Card struct {
-	Type  string
 	Suit  string
+	Type  string
 	Value int
 }
 
@@ -33,14 +33,14 @@ func createNewDeck() (deck Deck) {
 	types := []string{"Two", "Three", "Four", "Five", "Six", "Seven",
 		"Eight", "Nine", "Ten", "Jack", "Queen", "King", "Ace"}
 
-	suits := []string{"Heart", "Diamond", "Club", "Spade"}
+	suits := []string{"HEART", "DIAMOND", "CLUB", "SPADE"}
 
 	for i := 0; i < len(types); i++ {
 		for n := 0; n < len(suits); n++ {
 			card := Card{
 				Type:  types[i],
 				Suit:  suits[n],
-				Value: i,
+				Value: i + 2,
 			}
 			deck.FullCards = append(deck.FullCards, card)
 		}

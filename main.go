@@ -11,18 +11,43 @@ import (
 	"strconv"
 )
 
+type GameData struct {
+	Player1 *player.Player
+	Player2 *player.Player
+}
+
 func main() {
 
 	deck := cards.GetInstance()
 
-	myPlayer := player.NewPlayer("Dara", deck.FullCards[:25])
-	cpuPlayer := player.NewPlayer("CPU", deck.FullCards[25:])
+	myPlayer := player.NewPlayer("Player 1", deck.FullCards[:26])
+	cpuPlayer := player.NewPlayer("CPU", deck.FullCards[26:])
 
-	http.HandleFunc("/play", playRound)
+	gameData := GameData{Player1: &myPlayer, Player2: &cpuPlayer}
 
-	http.HandleFunc("/", homePage)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 
-	log.Println("Starting web server on port 8080")
+		// Création d'un template
+		tmpl := template.Must(template.ParseFiles("form.html"))
+
+		tmpl.Execute(w, nil)
+	})
+
+	http.HandleFunc("/index.html", func(w http.ResponseWriter, r *http.Request) {
+
+		if r.FormValue("nom") != "" {
+			myPlayer.Name = r.FormValue("nom")
+		}
+
+		tmpl := template.Must(template.ParseFiles("index.html"))
+
+		tmpl.Execute(w, gameData)
+	})
+
+	//partie DARA
+	//http.HandleFunc("/play", playRound)
+	//http.HandleFunc("/", homePage)
+
 	http.ListenAndServe(":8080", nil)
 }
 
