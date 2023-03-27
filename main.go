@@ -20,8 +20,8 @@ func main() {
 
 	deck := cards.GetInstance()
 
-	myPlayer := player.NewPlayer("Player 1", deck.FullCards[:26])
-	cpuPlayer := player.NewPlayer("CPU", deck.FullCards[26:])
+	myPlayer := player.NewPlayer("Player 1", deck.DeckOfCards[:26])
+	cpuPlayer := player.NewPlayer("CPU", deck.DeckOfCards[26:])
 
 	gameData := GameData{Player1: &myPlayer, Player2: &cpuPlayer}
 

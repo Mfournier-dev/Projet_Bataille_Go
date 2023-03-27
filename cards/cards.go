@@ -14,7 +14,7 @@ type Card struct {
 }
 
 type Deck struct {
-	FullCards []Card
+	DeckOfCards []Card
 }
 
 var deckInstance *Deck
@@ -22,7 +22,7 @@ var deckInstance *Deck
 func GetInstance() *Deck {
 	if deckInstance == nil {
 		deckInstance = &Deck{
-			FullCards: shuffle(createNewDeck()),
+			DeckOfCards: shuffle(createNewDeck()),
 		}
 	}
 	return deckInstance
@@ -30,10 +30,10 @@ func GetInstance() *Deck {
 
 func createNewDeck() (deck Deck) {
 
-	types := []string{"Two", "Three", "Four", "Five", "Six", "Seven",
-		"Eight", "Nine", "Ten", "Jack", "Queen", "King", "Ace"}
+	types := []string{"Deux", "Trois", "Quatre", "Cinq", "Six", "Sept",
+		"Huit", "Neuf", "Dix", "Valet", "Dame", "Roi", "As"}
 
-	suits := []string{"HEART", "DIAMOND", "CLUB", "SPADE"}
+	suits := []string{"Coeur", "Carreau", "Trèfe", "Pique"}
 
 	for i := 0; i < len(types); i++ {
 		for n := 0; n < len(suits); n++ {
@@ -42,7 +42,7 @@ func createNewDeck() (deck Deck) {
 				Suit:  suits[n],
 				Value: i + 2,
 			}
-			deck.FullCards = append(deck.FullCards, card)
+			deck.DeckOfCards = append(deck.DeckOfCards, card)
 		}
 	}
 	return deck
@@ -50,27 +50,55 @@ func createNewDeck() (deck Deck) {
 
 func shuffle(d Deck) []Card {
 	rand.Seed(time.Now().UnixNano())
-	for i := 1; i < len(d.FullCards); i++ {
+	for i := 1; i < len(d.DeckOfCards); i++ {
 
 		r := rand.Intn(i + 1)
 
 		if i != r {
-			d.FullCards[r], d.FullCards[i] = d.FullCards[i], d.FullCards[r]
+			d.DeckOfCards[r], d.DeckOfCards[i] = d.DeckOfCards[i], d.DeckOfCards[r]
 		}
 	}
-	return d.FullCards
+	return d.DeckOfCards
 }
 
-func Deal(d Deck, n int) {
+func showCards(Deck Deck) {
+	topDeck := len(Deck.DeckOfCards) - 1
+
+	fmt.Printf("%s de %s", Deck.DeckOfCards[topDeck].Type, Deck.DeckOfCards[topDeck].Suit)
+
+}
+
+func removeCards(pDeck Deck, cDeck Deck) {
+	topDeck := len(pDeck.DeckOfCards) - 1
+
+	pDeck.DeckOfCards = append(pDeck.DeckOfCards[:topDeck], pDeck.DeckOfCards[topDeck+1])
+	cDeck.DeckOfCards = append(cDeck.DeckOfCards[:topDeck], cDeck.DeckOfCards[topDeck+1])
+}
+
+func dealACard(pDeck Deck, cDeck Deck) {
+
+	topDeck := len(pDeck.DeckOfCards) - 1
+
+	if pDeck.DeckOfCards[topDeck].Value > cDeck.DeckOfCards[topDeck-1].Value {
+		fmt.Println("Le Joueur gagne")
+	} else if pDeck.DeckOfCards[topDeck].Value < cDeck.DeckOfCards[topDeck-1].Value {
+		fmt.Println("Monsieur Roboto gagne")
+	} else {
+		fmt.Println("Égalité")
+	}
+	removeCards(pDeck, cDeck)
+}
+
+func deal(d Deck, n int) {
 	for i := 0; i < n; i++ {
-		fmt.Println(d.FullCards[i])
+		fmt.Println(d.DeckOfCards[i])
 	}
 }
 
-func Debug(d Deck) {
+func debug(d Deck) {
 	if os.Getenv("DEBUG") != "" {
-		for i := 0; i < len(d.FullCards); i++ {
-			fmt.Printf("Card #%d is a %s of %ss\n", i+1, d.FullCards[i].Type, d.FullCards[i].Suit)
+		for i := 0; i < len(d.DeckOfCards); i++ {
+			fmt.Printf("Card #%d is a %s of %ss\n", i+1, d.DeckOfCards[i].Type, d.DeckOfCards[i].Suit)
 		}
 	}
 }
