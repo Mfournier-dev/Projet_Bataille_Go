@@ -33,7 +33,7 @@ func createNewDeck() (deck Deck) {
 	types := []string{"Deux", "Trois", "Quatre", "Cinq", "Six", "Sept",
 		"Huit", "Neuf", "Dix", "Valet", "Dame", "Roi", "As"}
 
-	suits := []string{"Coeur", "Carreau", "Trèfe", "Pique"}
+	suits := []string{"Coeur", "Carreau", "Trèfle", "Pique"}
 
 	for i := 0; i < len(types); i++ {
 		for n := 0; n < len(suits); n++ {
@@ -61,7 +61,7 @@ func shuffle(d Deck) []Card {
 	return d.DeckOfCards
 }
 
-func showCards(Deck Deck) {
+func ShowCards(Deck Deck) {
 	topDeck := len(Deck.DeckOfCards) - 1
 
 	fmt.Printf("%s de %s", Deck.DeckOfCards[topDeck].Type, Deck.DeckOfCards[topDeck].Suit)
