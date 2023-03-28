@@ -11,12 +11,13 @@
     <title>Bataille</title>
 </head>
 
-<body>
-	<form method="post" action="/index.html">
-		<label for="nom">Nom du joueur:</label>
-		<input type="text" id="nom" name="nom"><br><br>
-		
-		<input type="submit" value="Jouer">
-	</form>
+<body class="d-flex justify-content-center align-items-center vh-100">
+    <form class="p-5 border rounded-3" method="post" action="/index.html">
+        <div class="col-md-12 text-center">
+        <label class="form-label" for="nom">Nom du joueur :</label>
+        <input class="form-control mb-3" type="text" id="nom" name="nom">
+        <button class="btn btn-primary" type="submit" >Jouer</button>
+        </div>
+    </form>
 </body>
 </html>
