@@ -22,8 +22,13 @@
                 </tr>
 
                 <tr>
-                    <td>Score : {{.Player1.ShowCards}}</td>
-                    <td>Score : {{.Player2.Score}}</td>
+                    <td>Score : <p id="human_score">&nbsp;</p></td>
+                    <td>Score : <p id="cpu_score">&nbsp;</p></td>
+                </tr>
+
+                <tr>
+                    <td><p id="player_choice">&nbsp;</p></td>
+                    <td><p id="computer_choice">&nbsp;</p></td>
                 </tr>
             </tbody>
         </table>
@@ -34,13 +39,8 @@
 
         <hr>
         <br>
-        <br>
 
-        <button class="btn btn-outline-secondary" onclick="choose(0)">Rock</button>
-        <button class="btn btn-outline-danger" onclick="choose(1)">Paper</button>
-        <button class="btn btn-outline-success" onclick="choose(2)">Scissors</button>
-
-        <button class="btn btn-outline-primary" onclick="playARound()">Jouer une manche</button>
+        <button class="btn btn-outline-primary" onclick="chooseCard()">Jouer une manche</button>
     </div>
 </body>
 
@@ -49,41 +49,17 @@
         document.getElementById("round_result").innerHTML = "Telle personne a gagné";
     }
 
-    function chooseCard(x) {
-        fetch("/play?c=" + x)
+    function chooseCard() {
+        fetch("/play")
             .then(response => response.json())
             .then(data => {
 
                 //we displaying on our web page
-                if (x == 0) {
-                    document.getElementById("player_choice").innerHTML = "Player chose ROCK";
-                } else if (x == 1) {
-                    document.getElementById("player_choice").innerHTML = "Player chose PAPER";
-                } else {
-                    document.getElementById("player_choice").innerHTML = "Player chose SCISSORS";
-                }
+                document.getElementById("player_choice").innerHTML = data.human_choice;
                 document.getElementById("computer_choice").innerHTML = data.computer_choice;
+                document.getElementById("human_score").innerHTML = data.human_score;
+                document.getElementById("cpu_score").innerHTML = data.computer_score;
                 document.getElementById("round_result").innerHTML = data.round_result;
-            })
-    }
-
-
-    function choose(x) {
-        fetch("/play?c=" + x)
-            .then(response => response.json())
-            .then(data => {
-
-                //we displaying on our web page
-                if (x == 0) {
-                    document.getElementById("player_choice").innerHTML = "Player chose ROCK";
-                } else if (x == 1) {
-                    document.getElementById("player_choice").innerHTML = "Player chose PAPER";
-                } else {
-                    document.getElementById("player_choice").innerHTML = "Player chose SCISSORS";
-                }
-                document.getElementById("computer_choice").innerHTML = data.computer_choice;
-                document.getElementById("round_result").innerHTML = data.round_result;
-
             })
     }
 </script>

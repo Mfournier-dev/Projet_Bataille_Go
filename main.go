@@ -6,9 +6,7 @@ import (
 	"log"
 	"myapp/cards"
 	"myapp/player"
-	"myapp/rps"
 	"net/http"
-	"strconv"
 )
 
 type GameData struct {
@@ -44,6 +42,20 @@ func main() {
 		tmpl.Execute(w, gameData)
 	})
 
+	http.HandleFunc("/play", func(w http.ResponseWriter, r *http.Request) {
+		//from object request, we getting variable "c" content
+
+		result := player.PlayRound(myPlayer, cpuPlayer)
+
+		out, err := json.MarshalIndent(result, "", "    ")
+		if err != nil {
+			log.Println(err)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(out)
+	})
+
 	//partie DARA
 	//http.HandleFunc("/play", playRound)
 	//http.HandleFunc("/", homePage)
@@ -51,10 +63,7 @@ func main() {
 	http.ListenAndServe(":8080", nil)
 }
 
-func homePage(w http.ResponseWriter, r *http.Request) {
-	renderTemplate(w, "index.html")
-}
-
+/*
 func playRound(w http.ResponseWriter, r *http.Request) {
 	//i have added here playerChoice variable
 	//from object request, we getting variable "c" content
@@ -70,6 +79,10 @@ func playRound(w http.ResponseWriter, r *http.Request) {
 	w.Write(out)
 }
 
+func homePage(w http.ResponseWriter, r *http.Request) {
+	renderTemplate(w, "index.html")
+}
+
 func renderTemplate(w http.ResponseWriter, page string) {
 	t, err := template.ParseFiles(page)
 	if err != nil {
@@ -83,3 +96,5 @@ func renderTemplate(w http.ResponseWriter, page string) {
 		return
 	}
 }
+
+*/
