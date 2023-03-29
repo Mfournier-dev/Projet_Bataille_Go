@@ -18,8 +18,8 @@ func main() {
 
 	deck := cards.GetInstance()
 
-	myPlayer := player.NewPlayer("Player 1", deck.DeckOfCards[:26])
-	cpuPlayer := player.NewPlayer("CPU", deck.DeckOfCards[26:])
+	myPlayer := player.NewPlayer("Player 1", deck.DeckOfCards[:26], 0)
+	cpuPlayer := player.NewPlayer("CPU", deck.DeckOfCards[26:], 0)
 
 	gameData := GameData{Player1: &myPlayer, Player2: &cpuPlayer}
 
@@ -43,9 +43,8 @@ func main() {
 	})
 
 	http.HandleFunc("/play", func(w http.ResponseWriter, r *http.Request) {
-		//from object request, we getting variable "c" content
 
-		result := player.PlayRound(myPlayer, cpuPlayer)
+		result := player.PlayRound(&myPlayer, &cpuPlayer)
 
 		out, err := json.MarshalIndent(result, "", "    ")
 		if err != nil {
@@ -54,47 +53,9 @@ func main() {
 		}
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(out)
-	})
 
-	//partie DARA
-	//http.HandleFunc("/play", playRound)
-	//http.HandleFunc("/", homePage)
+		log.Println(len(myPlayer.Cards))
+	})
 
 	http.ListenAndServe(":8080", nil)
 }
-
-/*
-func playRound(w http.ResponseWriter, r *http.Request) {
-	//i have added here playerChoice variable
-	//from object request, we getting variable "c" content
-	playerChoice, _ := strconv.Atoi(r.URL.Query().Get("c"))
-	result := rps.PlayRound(playerChoice)
-
-	out, err := json.MarshalIndent(result, "", "    ")
-	if err != nil {
-		log.Println(err)
-		return
-	}
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(out)
-}
-
-func homePage(w http.ResponseWriter, r *http.Request) {
-	renderTemplate(w, "index.html")
-}
-
-func renderTemplate(w http.ResponseWriter, page string) {
-	t, err := template.ParseFiles(page)
-	if err != nil {
-		log.Println(err)
-		return
-	}
-
-	err = t.Execute(w, nil)
-	if err != nil {
-		log.Println(err)
-		return
-	}
-}
-
-*/

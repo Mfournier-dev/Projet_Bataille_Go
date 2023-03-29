@@ -61,18 +61,13 @@ func shuffle(d Deck) []Card {
 	return d.DeckOfCards
 }
 
-func ShowCards(Deck Deck) {
-	topDeck := len(Deck.DeckOfCards) - 1
+func RemovePlayedCard(arr []Card) []Card {
+	topDeck := len(arr) - 1
 
-	fmt.Printf("%s de %s", Deck.DeckOfCards[topDeck].Type, Deck.DeckOfCards[topDeck].Suit)
+	newarr := make([]Card, topDeck)
+	copy(newarr, arr[:topDeck])
 
-}
-
-func removeCards(pDeck Deck, cDeck Deck) {
-	topDeck := len(pDeck.DeckOfCards) - 1
-
-	pDeck.DeckOfCards = append(pDeck.DeckOfCards[:topDeck], pDeck.DeckOfCards[topDeck+1])
-	cDeck.DeckOfCards = append(cDeck.DeckOfCards[:topDeck], cDeck.DeckOfCards[topDeck+1])
+	return newarr
 }
 
 func dealACard(pDeck Deck, cDeck Deck) {
@@ -86,7 +81,7 @@ func dealACard(pDeck Deck, cDeck Deck) {
 	} else {
 		fmt.Println("Égalité")
 	}
-	removeCards(pDeck, cDeck)
+	//removeCards(pDeck, cDeck)
 }
 
 func deal(d Deck, n int) {

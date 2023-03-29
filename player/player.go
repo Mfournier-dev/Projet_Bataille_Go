@@ -19,6 +19,7 @@ type Round struct {
 	ComputerChoice string `json:"computer_choice"`
 	ComputerScore  int    `json:"computer_score"`
 	RoundResult    string `json:"round_result"`
+	RoundNumber    int    `json:"round_number"`
 }
 
 type Player struct {
@@ -27,39 +28,51 @@ type Player struct {
 	Cards []cards.Card
 }
 
-func NewPlayer(name string, halfCards []cards.Card) Player {
-	p := Player{Name: name, Cards: halfCards, Score: 0}
+func NewPlayer(name string, halfCards []cards.Card, score int) Player {
+	p := Player{Name: name, Cards: halfCards, Score: score}
 	return p
 }
 
-func (p Player) ShowCards() cards.Card {
+func (p Player) GetCard() cards.Card {
 	topDeck := len(p.Cards) - 1
 
 	return p.Cards[topDeck]
 }
 
-func PlayRound(humanPlayer Player, cpuPlayer Player) Round {
+func PlayRound(humanPlayer *Player, cpuPlayer *Player) Round {
 	rand.Seed(time.Now().UnixNano())
 
-	humanValue := humanPlayer.ShowCards().Value
-	computerValue := cpuPlayer.ShowCards().Value
+	//récupération de la valeur de la carte jouée
+	humanValue := humanPlayer.GetCard().Value
+	computerValue := cpuPlayer.GetCard().Value
 
-	humanChoice := humanPlayer.ShowCards().Type + " de " + humanPlayer.ShowCards().Suit
-	computerChoice := cpuPlayer.ShowCards().Type + " de " + cpuPlayer.ShowCards().Suit
+	//récupération de la carte jouée pour l'affichage
+	humanChoice := humanPlayer.GetCard().Type + " de " + humanPlayer.GetCard().Suit
+	computerChoice := cpuPlayer.GetCard().Type + " de " + cpuPlayer.GetCard().Suit
 
+	//supprimer la carte jouée (pour les deux joueurs)
+	humanPlayer.Cards = cards.RemovePlayedCard(humanPlayer.Cards)
+	cpuPlayer.Cards = cards.RemovePlayedCard(cpuPlayer.Cards)
+
+	allRounds := 26
 	roundResult := ""
 	winner := 0
 
+	//comparaison pour déterminer le vainqueur de la manche
 	if humanValue > computerValue {
+
 		roundResult = humanPlayer.Name + " wins !"
 		winner = PLAYERWINS
 		humanPlayer.Score++
 
 	} else if humanValue < computerValue {
+
 		roundResult = "Computer wins !"
 		winner = COMPUTERWINS
 		cpuPlayer.Score++
+
 	} else {
+
 		roundResult = "It's a draw !"
 		winner = DRAW
 	}
@@ -71,5 +84,6 @@ func PlayRound(humanPlayer Player, cpuPlayer Player) Round {
 	result.ComputerChoice = computerChoice
 	result.HumanChoice = humanChoice
 	result.RoundResult = roundResult
+	result.RoundNumber = allRounds - len(humanPlayer.Cards)
 	return result
 }
