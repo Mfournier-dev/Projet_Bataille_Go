@@ -59,6 +59,24 @@
                 document.getElementById("cpu_score").innerHTML = data.computer_score;
                 document.getElementById("round_result").innerHTML = data.round_result;
                 document.getElementById("round_numb").innerHTML = data.round_number;
+                    
+                if(data.round_number == 26){
+                    setTimeout(function(){ //afficher l'alerte après une seconde, sinon l'alerte s'affiche avant la dernière manche
+
+                        if (data.winner == 1){
+                            alert("Félicitations ! Tu as gagné la bataille !")
+                        } else if (data.winner == 2){
+                            alert("Loser ! Tu as perdu la bataille !")
+                        } else{
+                            alert("Match nul !")
+                        }
+
+                        
+                    }, 1000)
+                }
+                                    
+                
+            
             })
     }
 </script>

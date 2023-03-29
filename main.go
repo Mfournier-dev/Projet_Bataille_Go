@@ -53,8 +53,6 @@ func main() {
 		}
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(out)
-
-		log.Println(len(myPlayer.Cards))
 	})
 
 	http.ListenAndServe(":8080", nil)

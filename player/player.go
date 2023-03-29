@@ -56,29 +56,36 @@ func PlayRound(humanPlayer *Player, cpuPlayer *Player) Round {
 
 	allRounds := 26
 	roundResult := ""
-	winner := 0
 
 	//comparaison pour déterminer le vainqueur de la manche
 	if humanValue > computerValue {
 
 		roundResult = humanPlayer.Name + " wins !"
-		winner = PLAYERWINS
 		humanPlayer.Score++
 
 	} else if humanValue < computerValue {
 
 		roundResult = "Computer wins !"
-		winner = COMPUTERWINS
 		cpuPlayer.Score++
 
 	} else {
 
 		roundResult = "It's a draw !"
-		winner = DRAW
 	}
 
 	var result Round
-	result.Winner = winner
+
+	if len(humanPlayer.Cards) == 0 && len(cpuPlayer.Cards) == 0 {
+
+		if humanPlayer.Score > cpuPlayer.Score {
+			result.Winner = PLAYERWINS
+		} else if humanPlayer.Score < cpuPlayer.Score {
+			result.Winner = COMPUTERWINS
+		} else {
+			result.Winner = DRAW
+		}
+	}
+
 	result.ComputerScore = cpuPlayer.Score
 	result.HumanScore = humanPlayer.Score
 	result.ComputerChoice = computerChoice
