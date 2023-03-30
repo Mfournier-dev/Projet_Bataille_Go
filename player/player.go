@@ -63,7 +63,7 @@ func PlayRound(humanPlayer *Player, cpuPlayer *Player) Round {
 
 	} else if humanValue < computerValue {
 
-		roundResult = "Computer remporte la manche !"
+		roundResult = "CPU remporte la manche !"
 		cpuPlayer.Score++
 
 	} else {
