@@ -1,9 +1,7 @@
 package cards
 
 import (
-	"fmt"
 	"math/rand"
-	"os"
 	"time"
 )
 
@@ -64,41 +62,12 @@ func shuffle(d Deck) []Card {
 func RemovePlayedCard(arr []Card) []Card {
 	topDeck := len(arr) - 1
 
-	newarr := make([]Card, topDeck)
-	copy(newarr, arr[:topDeck])
+	newArray := make([]Card, topDeck)
+	copy(newArray, arr[:topDeck])
 
-	return newarr
-}
-
-func dealACard(pDeck Deck, cDeck Deck) {
-
-	topDeck := len(pDeck.DeckOfCards) - 1
-
-	if pDeck.DeckOfCards[topDeck].Value > cDeck.DeckOfCards[topDeck-1].Value {
-		fmt.Println("Le Joueur gagne")
-	} else if pDeck.DeckOfCards[topDeck].Value < cDeck.DeckOfCards[topDeck-1].Value {
-		fmt.Println("Monsieur Roboto gagne")
-	} else {
-		fmt.Println("Égalité")
-	}
-	//removeCards(pDeck, cDeck)
-}
-
-func deal(d Deck, n int) {
-	for i := 0; i < n; i++ {
-		fmt.Println(d.DeckOfCards[i])
-	}
-}
-
-func debug(d Deck) {
-	if os.Getenv("DEBUG") != "" {
-		for i := 0; i < len(d.DeckOfCards); i++ {
-			fmt.Printf("Card #%d is a %s of %ss\n", i+1, d.DeckOfCards[i].Type, d.DeckOfCards[i].Suit)
-		}
-	}
+	return newArray
 }
 
 func init() {
-	rand.Seed(time.Now().UnixNano())
 	deckInstance = nil
 }

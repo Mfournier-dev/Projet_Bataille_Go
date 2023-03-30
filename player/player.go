@@ -1,15 +1,14 @@
 package player
 
 import (
-	"math/rand"
 	"myapp/cards"
-	"time"
 )
 
 const (
 	PLAYERWINS   = 1
 	COMPUTERWINS = 2
 	DRAW         = 3
+	ALLROUNDS    = 26
 )
 
 type Round struct {
@@ -40,7 +39,9 @@ func (p Player) GetCard() cards.Card {
 }
 
 func PlayRound(humanPlayer *Player, cpuPlayer *Player) Round {
-	rand.Seed(time.Now().UnixNano())
+
+	var result Round
+	roundResult := ""
 
 	//récupération de la valeur de la carte jouée
 	humanValue := humanPlayer.GetCard().Value
@@ -54,26 +55,21 @@ func PlayRound(humanPlayer *Player, cpuPlayer *Player) Round {
 	humanPlayer.Cards = cards.RemovePlayedCard(humanPlayer.Cards)
 	cpuPlayer.Cards = cards.RemovePlayedCard(cpuPlayer.Cards)
 
-	allRounds := 26
-	roundResult := ""
-
 	//comparaison pour déterminer le vainqueur de la manche
 	if humanValue > computerValue {
 
-		roundResult = humanPlayer.Name + " wins !"
+		roundResult = humanPlayer.Name + " remporte la manche !"
 		humanPlayer.Score++
 
 	} else if humanValue < computerValue {
 
-		roundResult = "Computer wins !"
+		roundResult = "Computer remporte la manche !"
 		cpuPlayer.Score++
 
 	} else {
 
-		roundResult = "It's a draw !"
+		roundResult = "Égalité !"
 	}
-
-	var result Round
 
 	if len(humanPlayer.Cards) == 0 && len(cpuPlayer.Cards) == 0 {
 
@@ -91,6 +87,7 @@ func PlayRound(humanPlayer *Player, cpuPlayer *Player) Round {
 	result.ComputerChoice = computerChoice
 	result.HumanChoice = humanChoice
 	result.RoundResult = roundResult
-	result.RoundNumber = allRounds - len(humanPlayer.Cards)
+	result.RoundNumber = ALLROUNDS - len(humanPlayer.Cards)
+
 	return result
 }
