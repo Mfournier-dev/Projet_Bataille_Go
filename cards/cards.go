@@ -17,6 +17,7 @@ type Deck struct {
 
 var deckInstance *Deck
 
+// Retourne une instance  singleton d'un paquet de cartes mélangé
 func GetInstance() *Deck {
 	if deckInstance == nil {
 		deckInstance = &Deck{
@@ -26,6 +27,7 @@ func GetInstance() *Deck {
 	return deckInstance
 }
 
+// Crée un nouveau paquet de 52 cartes
 func createNewDeck() (deck Deck) {
 
 	types := []string{"Deux", "Trois", "Quatre", "Cinq", "Six", "Sept",
@@ -46,6 +48,7 @@ func createNewDeck() (deck Deck) {
 	return deck
 }
 
+// Mélange un paquet de cartes donné
 func shuffle(d Deck) []Card {
 	rand.Seed(time.Now().UnixNano())
 	for i := 1; i < len(d.DeckOfCards); i++ {
@@ -59,6 +62,7 @@ func shuffle(d Deck) []Card {
 	return d.DeckOfCards
 }
 
+// retire la première carte au dessus du paquet
 func RemovePlayedCard(arr []Card) []Card {
 	topDeck := len(arr) - 1
 

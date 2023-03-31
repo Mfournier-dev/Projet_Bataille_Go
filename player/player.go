@@ -11,6 +11,7 @@ const (
 	ALLROUNDS    = 26
 )
 
+// definit les éléments d'une manche du jeu
 type Round struct {
 	Winner         int    `json:"winner"`
 	HumanChoice    string `json:"human_choice"`
@@ -27,17 +28,20 @@ type Player struct {
 	Cards []cards.Card
 }
 
+// Crée un nouveau joueur en lui attribuant un nom et la moitié du paquet de cartes
 func NewPlayer(name string, halfCards []cards.Card, score int) Player {
 	p := Player{Name: name, Cards: halfCards, Score: score}
 	return p
 }
 
+// Récupère la valeur de la carte au dessus du paquet.
 func (p Player) GetCard() cards.Card {
 	topDeck := len(p.Cards) - 1
 
 	return p.Cards[topDeck]
 }
 
+// Simule une manche du jeu
 func PlayRound(humanPlayer *Player, cpuPlayer *Player) Round {
 
 	var result Round
@@ -63,14 +67,14 @@ func PlayRound(humanPlayer *Player, cpuPlayer *Player) Round {
 
 	} else if humanValue < computerValue {
 
-		roundResult = "CPU remporte la manche !"
+		roundResult = "Monsieur Roboto remporte la manche !"
 		cpuPlayer.Score++
 
 	} else {
 
 		roundResult = "Égalité !"
 	}
-
+	//Lorsque les paquets sont vides, on annonce le gagnant de la partie
 	if len(humanPlayer.Cards) == 0 && len(cpuPlayer.Cards) == 0 {
 
 		if humanPlayer.Score > cpuPlayer.Score {
